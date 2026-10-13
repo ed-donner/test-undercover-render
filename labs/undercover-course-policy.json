@@ -1,0 +1,275 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "WhoAmI",
+      "Effect": "Allow",
+      "Action": "sts:GetCallerIdentity",
+      "Resource": "*"
+    },
+    {
+      "Sid": "AccountChecks",
+      "Effect": "Allow",
+      "Action": [
+        "freetier:GetAccountPlanState",
+        "iam:GetAccountSummary"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AgentCoreEverything",
+      "Effect": "Allow",
+      "Action": "bedrock-agentcore:*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "CloudFormationStacks",
+      "Effect": "Allow",
+      "Action": "cloudformation:*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "AssumeCdkRoles",
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Resource": "arn:aws:iam::*:role/cdk-*"
+    },
+    {
+      "Sid": "ManageCourseRoles",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateRole",
+        "iam:DeleteRole",
+        "iam:GetRole",
+        "iam:TagRole",
+        "iam:UpdateAssumeRolePolicy",
+        "iam:PutRolePolicy",
+        "iam:DeleteRolePolicy",
+        "iam:GetRolePolicy",
+        "iam:ListRolePolicies",
+        "iam:AttachRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:ListAttachedRolePolicies"
+      ],
+      "Resource": [
+        "arn:aws:iam::*:role/cdk-*",
+        "arn:aws:iam::*:role/undercover*",
+        "arn:aws:iam::*:role/AgentCore-*"
+      ]
+    },
+    {
+      "Sid": "PassCourseRolesToServices",
+      "Effect": "Allow",
+      "Action": "iam:PassRole",
+      "Resource": [
+        "arn:aws:iam::*:role/cdk-*",
+        "arn:aws:iam::*:role/undercover*",
+        "arn:aws:iam::*:role/AgentCore-*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "iam:PassedToService": [
+            "cloudformation.amazonaws.com",
+            "lambda.amazonaws.com",
+            "bedrock-agentcore.amazonaws.com"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "ListRolesForTeardown",
+      "Effect": "Allow",
+      "Action": "iam:ListRoles",
+      "Resource": "*"
+    },
+    {
+      "Sid": "ServiceLinkedRoles",
+      "Effect": "Allow",
+      "Action": "iam:CreateServiceLinkedRole",
+      "Resource": "*",
+      "Condition": {
+        "StringLike": {
+          "iam:AWSServiceName": [
+            "*bedrock-agentcore*",
+            "application-signals.cloudwatch.amazonaws.com",
+            "resource-explorer-2.amazonaws.com"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "UndercoverLambda",
+      "Effect": "Allow",
+      "Action": "lambda:*",
+      "Resource": "arn:aws:lambda:*:*:function:undercover*"
+    },
+    {
+      "Sid": "ListLambdas",
+      "Effect": "Allow",
+      "Action": [
+        "lambda:ListFunctions",
+        "lambda:GetAccountSettings"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "CdkAssetBuckets",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::cdk-*",
+        "arn:aws:s3:::cdk-*/*"
+      ]
+    },
+    {
+      "Sid": "ListBuckets",
+      "Effect": "Allow",
+      "Action": "s3:ListAllMyBuckets",
+      "Resource": "*"
+    },
+    {
+      "Sid": "CdkContainerRepositories",
+      "Effect": "Allow",
+      "Action": "ecr:*",
+      "Resource": "arn:aws:ecr:*:*:repository/cdk-*"
+    },
+    {
+      "Sid": "EcrLogin",
+      "Effect": "Allow",
+      "Action": "ecr:GetAuthorizationToken",
+      "Resource": "*"
+    },
+    {
+      "Sid": "CdkBootstrapParameters",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameter",
+        "ssm:GetParameters",
+        "ssm:PutParameter",
+        "ssm:DeleteParameter",
+        "ssm:ListTagsForResource"
+      ],
+      "Resource": "arn:aws:ssm:*:*:parameter/cdk-bootstrap/*"
+    },
+    {
+      "Sid": "EncryptionKeys",
+      "Effect": "Allow",
+      "Action": [
+        "kms:CreateKey",
+        "kms:CreateAlias",
+        "kms:DeleteAlias",
+        "kms:DescribeKey",
+        "kms:ListAliases",
+        "kms:ListKeys",
+        "kms:ListResourceTags",
+        "kms:GetKeyPolicy",
+        "kms:PutKeyPolicy",
+        "kms:EnableKeyRotation",
+        "kms:GetKeyRotationStatus",
+        "kms:ScheduleKeyDeletion",
+        "kms:TagResource",
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:GenerateDataKey",
+        "kms:GenerateDataKeyWithoutPlaintext"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ModelKeyStorage",
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:CreateSecret",
+        "secretsmanager:PutSecretValue",
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:TagResource",
+        "secretsmanager:DeleteSecret"
+      ],
+      "Resource": [
+        "arn:aws:secretsmanager:*:*:secret:bedrock-agentcore-identity!*",
+        "arn:aws:secretsmanager:*:*:secret:undercover*"
+      ]
+    },
+    {
+      "Sid": "Logs",
+      "Effect": "Allow",
+      "Action": [
+        "logs:DescribeLogGroups",
+        "logs:DescribeLogStreams",
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:PutRetentionPolicy",
+        "logs:GetLogEvents",
+        "logs:FilterLogEvents",
+        "logs:StartLiveTail",
+        "logs:StartQuery",
+        "logs:GetQueryResults",
+        "logs:DescribeResourcePolicies",
+        "logs:PutResourcePolicy"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "DeleteCourseLogGroups",
+      "Effect": "Allow",
+      "Action": "logs:DeleteLogGroup",
+      "Resource": [
+        "arn:aws:logs:*:*:log-group:/aws/lambda/undercover*",
+        "arn:aws:logs:*:*:log-group:/aws/bedrock-agentcore/*"
+      ]
+    },
+    {
+      "Sid": "TraceSetup",
+      "Effect": "Allow",
+      "Action": [
+        "application-signals:StartDiscovery",
+        "xray:GetTraceSegmentDestination",
+        "xray:UpdateTraceSegmentDestination",
+        "xray:UpdateIndexingRule"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ListSecretsForTeardown",
+      "Effect": "Allow",
+      "Action": "secretsmanager:ListSecrets",
+      "Resource": "*"
+    },
+    {
+      "Sid": "ReadMetrics",
+      "Effect": "Allow",
+      "Action": ["cloudwatch:GetMetricStatistics", "cloudwatch:ListMetrics"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "FindEverythingByTag",
+      "Effect": "Allow",
+      "Action": "tag:GetResources",
+      "Resource": "*"
+    },
+    {
+      "Sid": "FindEverythingInTheAccount",
+      "Effect": "Allow",
+      "Action": [
+        "resource-explorer-2:Get*",
+        "resource-explorer-2:List*",
+        "resource-explorer-2:Search",
+        "resource-explorer-2:BatchGetView"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "BudgetsAndCosts",
+      "Effect": "Allow",
+      "Action": [
+        "budgets:ViewBudget",
+        "budgets:ModifyBudget",
+        "ce:GetCostAndUsage",
+        "ce:GetCostForecast"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

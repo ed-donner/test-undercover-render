@@ -1,0 +1,23 @@
+# Formats the staged files, then runs the checks for the part that changed.
+glob_matcher: doublestar
+
+pre-commit:
+  parallel: true
+  jobs:
+    - name: python
+      glob: ["{backend,agent,context,runtime}/**/*.py", "*.py"]
+      group:
+        piped: true
+        jobs:
+          - run: uv run ruff format {staged_files}
+            stage_fixed: true
+          - run: npm run check:python
+
+    - name: typescript
+      glob: ["{dashboard,e2e}/**", "*.config.*"]
+      group:
+        piped: true
+        jobs:
+          - run: npx prettier --write -u {staged_files}
+            stage_fixed: true
+          - run: npm run check:ts
