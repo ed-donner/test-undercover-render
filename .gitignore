@@ -1,0 +1,74 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.gradio/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Node and the Vite dashboard
+node_modules/
+.vite/
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+coverage/
+
+# Playwright, with the end-to-end tests' saved sign-ins
+test-results/
+playwright-report/
+e2e/.auth/
+.playwright-mcp/
+
+# AWS and AgentCore
+cdk.out/
+.bedrock_agentcore/
+agentcore/.cli/
+agentcore/.cache/
+agentcore/aws-targets.json
+*.zip
+lambda_package/
+
+# What the AgentCore CLI makes as it runs the Week 3 Day 4 Lab 1's project
+labs/undercoverlab/agentcore/.cli/
+labs/undercoverlab/agentcore/.cache/
+labs/undercoverlab/agentcore/aws-targets.json
+
+# Local databases and data
+*.db
+*.sqlite
+*.sqlite3
+qdrant_data/
+
+# Claims desks made by the Week 1 Day 5 labs
+labs/*_desk/
+
+# Claude Code's local settings
+.claude/settings.local.json
+
+# Editors and operating systems
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
