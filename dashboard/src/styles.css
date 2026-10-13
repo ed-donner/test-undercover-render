@@ -1,0 +1,1485 @@
+:root {
+  --sea-green: #06d6a0;
+  --marigold: #ffc145;
+  --coral: #f78c6b;
+  --cerulean: #118ab2;
+  --raspberry: #ef476f;
+  --midnight: #073b4c;
+  --sea-mist: #cdd8db;
+
+  /* Each color for light mode, then dark mode. */
+  --page: light-dark(#f0f4f5, #04232e);
+  --panel: light-dark(#ffffff, #000000);
+  --inset: light-dark(#f4f7f8, #0a1d24);
+  --ink: light-dark(var(--midnight), var(--sea-mist));
+  --muted: light-dark(#4b6f7b, #93aab1);
+  --link: light-dark(#0b6e8f, #6fcbe8);
+  --green-text: light-dark(#037a5b, #6ff0c9);
+  --red-text: light-dark(#b8204a, #ff8fa8);
+  --disabled-surface: light-dark(#e3eaec, #163640);
+  --disabled-ink: light-dark(#7a949c, #6f8a92);
+  /* The header's band, darker than the page in both modes, and a menu raised
+     above the page. */
+  --header: light-dark(var(--midnight), #000000);
+  --on-header: #ffffff;
+  --raised: light-dark(#ffffff, #0b2c37);
+  --shadow: light-dark(rgb(7 59 76 / 0.07), rgb(0 0 0 / 0.5));
+  --sans: "Instrument Sans", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* The same as the computer, unless the appearance chosen in Settings says. */
+  color-scheme: light dark;
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--page);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+}
+
+a {
+  color: var(--link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+}
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+/* An icon in a button, a menu or a message, the size of the text beside it. */
+svg.lucide {
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+  margin: 0;
+}
+
+h1 {
+  font-size: 1.9rem;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+p {
+  margin: 0;
+}
+
+.mono {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 0.87rem;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+/* The header: a band across the page in Midnight, with the brand, the main
+   nav and the handler signed in. */
+.header {
+  background: var(--header);
+  color: var(--on-header);
+}
+
+.header-bar {
+  max-width: 1320px;
+  height: 64px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: stretch;
+  gap: 40px;
+}
+
+/* Sea Green shows on the band; the menu, on its own surface, keeps the
+   usual ring. */
+.header-bar > .brand:focus-visible,
+.nav a:focus-visible,
+.avatar-button:focus-visible {
+  outline-color: var(--sea-green);
+}
+
+/* The brand, always on the header's Midnight or the sign-in page's. */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--on-header);
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.brand svg.lucide {
+  width: 26px;
+  height: 26px;
+  color: var(--sea-green);
+}
+
+.tagline {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.3rem;
+  color: var(--sea-mist);
+}
+
+/* Plain links, with a Sea Green bar under the page you're on. */
+.nav {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.nav a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  color: var(--sea-mist);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.nav a:hover,
+.nav a.active {
+  color: var(--on-header);
+}
+
+.nav a.active::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--sea-green);
+}
+
+.who {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.who-text {
+  display: grid;
+  text-align: right;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.who-name {
+  font-weight: 600;
+}
+
+.who-role {
+  font-size: 0.82rem;
+  color: var(--sea-mist);
+}
+
+.account {
+  position: relative;
+}
+
+.avatar-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px 3px 3px;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  color: var(--sea-mist);
+  cursor: pointer;
+}
+
+.avatar-button:hover,
+.avatar-button[aria-expanded="true"] {
+  background: rgb(255 255 255 / 0.1);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--sea-green);
+  color: var(--midnight);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.account-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 10;
+  min-width: 260px;
+  display: grid;
+  gap: 2px;
+  padding: 6px;
+  border-radius: 12px;
+  background: var(--raised);
+  color: var(--ink);
+  box-shadow:
+    0 12px 32px var(--shadow),
+    0 2px 6px var(--shadow);
+}
+
+.account-who {
+  display: grid;
+  margin-bottom: 4px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--inset);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.menu-item:hover,
+.menu-item:focus-visible,
+.menu-item.active {
+  background: var(--inset);
+}
+
+.menu-item svg.lucide {
+  color: var(--muted);
+}
+
+@media (max-width: 960px) {
+  .header-bar {
+    height: auto;
+    flex-wrap: wrap;
+    gap: 0 24px;
+    padding: 10px 16px 0;
+  }
+
+  /* The links wrap on a narrow screen, so none is out of sight. */
+  .header .nav {
+    order: 1;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    gap: 0 8px;
+    margin-left: -12px;
+  }
+
+  .nav a {
+    height: 40px;
+  }
+}
+
+@media (max-width: 560px) {
+  .who-text {
+    display: none;
+  }
+}
+
+.page {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 32px 24px 56px;
+}
+
+@media (max-width: 560px) {
+  .page {
+    padding: 24px 16px 48px;
+  }
+}
+
+.lead {
+  color: var(--muted);
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+
+.message {
+  color: var(--muted);
+  padding: 24px 0;
+}
+
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 24px;
+  margin-bottom: 24px;
+}
+
+.page-header .lead {
+  margin: 6px 0 0;
+}
+
+.eyebrow {
+  margin-bottom: 4px;
+  color: var(--muted);
+}
+
+/* The sign-in page: its card in the middle of the header's Midnight, or of
+   the page in dark mode, where the header's black would hide a black card. */
+.sign-in {
+  min-height: 100vh;
+  padding: 48px 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 440px);
+  justify-content: center;
+  align-content: center;
+  gap: 24px;
+  background: light-dark(var(--midnight), var(--page));
+}
+
+.sign-in .brand {
+  justify-self: center;
+}
+
+.sign-in-panel {
+  padding: 28px 32px;
+}
+
+.sign-in .page-header {
+  margin-bottom: 8px;
+}
+
+.sign-in .action-form {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.not-allowed {
+  min-height: 1.5em;
+  color: var(--muted);
+}
+
+.panel {
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 1px 3px var(--shadow);
+}
+
+/* The queue's tiles, one for each state, filled in the state's color as its
+   chip is. */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.tile {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 16px;
+  padding: 18px 20px 20px;
+  border-radius: 16px;
+  color: var(--midnight);
+}
+
+/* Large text (18.66px bold or more), which white on Cerulean and Raspberry
+   is clear enough for. */
+.tile-label {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.tile-figure {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.tile-figure svg.lucide {
+  width: 28px;
+  height: 28px;
+}
+
+.tile-count {
+  font-family: var(--mono);
+  font-size: 2.4rem;
+  font-weight: 500;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.chip {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--midnight);
+}
+
+.status-decided,
+.decision-approve,
+.run-finished,
+.score-right,
+.version-kept,
+.round-finished,
+.verdict-kept,
+.grade-A {
+  background: var(--sea-green);
+}
+
+.status-in_progress,
+.decision-refer,
+.run-running,
+.version-under_test,
+.round-open,
+.grade-C {
+  background: var(--marigold);
+}
+
+.status-waiting_for_sign_off,
+.decision-decline,
+.run-stopped,
+.version-rolled_back,
+.round-stopped,
+.verdict-rolled_back {
+  background: var(--coral);
+}
+
+.status-waiting,
+.version-current,
+.grade-B {
+  background: var(--cerulean);
+  color: #ffffff;
+}
+
+.status-left_for_handler,
+.step-failed,
+.score-miss,
+.grade-F {
+  background: var(--raspberry);
+  color: #ffffff;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.dispatch {
+  margin-bottom: 20px;
+}
+
+/* A heading with its status chip beside it. */
+.title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.title-row h1,
+.title-row h2 {
+  margin: 0;
+}
+
+.dispatch .table {
+  margin-top: 12px;
+}
+
+.stopped {
+  margin-top: 8px;
+}
+
+.facts.measures {
+  margin: 12px 0 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* A long fact, such as a reason, under the short ones, the width of the panel. */
+.facts .fact-wide {
+  grid-column: 1 / -1;
+  max-width: 80ch;
+}
+
+.facts.measures dd {
+  font-size: 1.3rem;
+}
+
+.table.scoreboard thead th {
+  white-space: normal;
+  vertical-align: bottom;
+}
+
+.table.scoreboard td:first-child {
+  min-width: 260px;
+}
+
+.dispatch-summary {
+  margin-top: 4px;
+}
+
+.dispatch-summary h3 {
+  margin: 16px 0 8px;
+}
+
+.dispatch-summary ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* A table whose cells fill in as the page refreshes, such as an evaluation's
+   claims while it runs: its columns keep the widths set here, so a value that
+   arrives never moves the others. */
+.table.steady {
+  table-layout: fixed;
+}
+
+.table.steady td {
+  white-space: nowrap;
+}
+
+.table.steady td:has(.two-lines) {
+  white-space: normal;
+}
+
+.col-claim {
+  width: 8.5rem;
+}
+
+.col-id {
+  width: 6rem;
+}
+
+.col-decision {
+  width: 12.5rem;
+}
+
+.col-chip {
+  width: 6.5rem;
+}
+
+.col-money {
+  width: 7rem;
+}
+
+.col-time {
+  width: 6rem;
+}
+
+.col-reason {
+  width: 22rem;
+}
+
+/* Headings wrap rather than run into the next column. */
+.table.steady thead th {
+  white-space: normal;
+}
+
+/* A long text shown in two lines, with room kept for both, so a row keeps
+   its height when the text arrives. */
+.two-lines {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  min-height: 3em;
+}
+
+.table th,
+.table td {
+  padding: 9px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.table thead th {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.table tbody tr:nth-child(odd) td {
+  background: var(--inset);
+}
+
+/* Covers the hairline Chrome leaves between shaded cells at fractional widths */
+.table tbody tr:nth-child(odd) td + td {
+  box-shadow: -1px 0 0 var(--inset);
+}
+
+.table tbody tr:nth-child(odd) td:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.table tbody tr:nth-child(odd) td:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.table tfoot th,
+.table tfoot td {
+  font-weight: 600;
+}
+
+.table .num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Numbers in tables line up: in JetBrains Mono with tabular figures, so a
+   value that changes on a refresh keeps its width. */
+.table td.num {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Mono inside a number's cell is already the cell's size, and a word in place
+   of a number, such as "None", is in the body font. */
+.table td.num .mono {
+  font-size: inherit;
+}
+
+.table td.num .muted {
+  font-family: var(--sans);
+}
+
+.claim-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 20px;
+  align-items: start;
+}
+
+/* A column of panels, which a wide table scrolls inside rather than widens. */
+.column {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 960px) {
+  .claim-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px 20px;
+  margin: 0 0 16px;
+}
+
+.facts dt {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.story {
+  margin-top: 6px;
+  max-width: 75ch;
+}
+
+.document {
+  background: var(--inset);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.document + .document {
+  margin-top: 12px;
+}
+
+.document p:last-child {
+  margin-top: 6px;
+}
+
+.history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.history li {
+  background: var(--inset);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.instructions {
+  margin: 12px 0 0;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: var(--inset);
+  max-width: 100ch;
+  white-space: pre-wrap;
+  font-family: var(--mono);
+  font-size: 0.87rem;
+  line-height: 1.6;
+}
+
+.decision-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.payout {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.section-ref {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.reason {
+  margin-top: 4px;
+}
+
+.payment {
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+/* A payout waiting for a sign-off, tinted Marigold as a state that needs
+   someone to act. */
+.sign-off {
+  margin-top: 16px;
+  background: color-mix(in srgb, var(--marigold) 22%, var(--panel));
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.action-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 10px 12px;
+  margin: 12px 0 16px;
+}
+
+/* A form that ends its panel leaves the panel's own padding below it. */
+.action-form:last-child {
+  margin-bottom: 0;
+}
+
+.action-form label {
+  display: grid;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.action-form select,
+.action-form button,
+.button {
+  font: inherit;
+  font-size: 0.95rem;
+  border-radius: 999px;
+  padding: 7px 14px;
+  border: none;
+}
+
+.action-form select {
+  background: var(--inset);
+  color: var(--ink);
+  min-width: 90px;
+}
+
+.action-form input {
+  font: inherit;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 12px;
+  background: var(--inset);
+  color: var(--ink);
+}
+
+.action-form button,
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--sea-green);
+  color: var(--midnight);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.action-form button:enabled:not([aria-disabled="true"]):hover,
+.button:enabled:not([aria-disabled="true"]):hover {
+  background: color-mix(in srgb, var(--sea-green) 88%, var(--midnight));
+}
+
+.button.quiet {
+  background: var(--panel);
+  color: var(--ink);
+}
+
+/* On a panel, a quiet button takes the inset color, so it keeps its shape. */
+.panel .button.quiet {
+  background: var(--inset);
+}
+
+.button.quiet:enabled:not([aria-disabled="true"]):hover {
+  background: color-mix(in srgb, var(--ink) 10%, var(--panel));
+}
+
+.button:disabled,
+.button[aria-disabled="true"],
+.action-form button:disabled,
+.action-form button[aria-disabled="true"],
+.panel .button.quiet:disabled,
+.panel .button.quiet[aria-disabled="true"] {
+  background: var(--disabled-surface);
+  color: var(--disabled-ink);
+  cursor: not-allowed;
+}
+
+.form-error {
+  flex-basis: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--raspberry) 20%, transparent);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.form-error svg.lucide {
+  margin-top: 0.2em;
+  color: var(--red-text);
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  background: var(--inset);
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+.step-time {
+  white-space: nowrap;
+}
+
+.step-label {
+  font-weight: 600;
+}
+
+.step-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.step-check svg.lucide {
+  margin-top: 0.2em;
+}
+
+.sections-read {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+}
+
+.step code {
+  overflow-wrap: anywhere;
+}
+
+.step summary {
+  cursor: pointer;
+}
+
+.step-result {
+  margin: 8px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.step details[open] summary code {
+  display: none;
+}
+
+.diff-counts {
+  margin-bottom: 12px;
+}
+
+.diff-added-count {
+  color: var(--green-text);
+}
+
+.diff-removed-count {
+  color: var(--red-text);
+}
+
+.diff-lines {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  background: var(--inset);
+  border-radius: 12px;
+  padding: 8px 0;
+}
+
+.diff-line {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  padding: 0 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.diff-added {
+  background: color-mix(in srgb, var(--sea-green) 20%, transparent);
+}
+
+.diff-removed {
+  background: color-mix(in srgb, var(--raspberry) 18%, transparent);
+}
+
+.diff-line ins,
+.diff-line del {
+  text-decoration: none;
+}
+
+.diff-sign {
+  color: var(--muted);
+  user-select: none;
+}
+
+/* Splits the hunks with a band of the panel's own color. */
+.diff-gap {
+  height: 12px;
+  margin: 8px 0;
+  background: var(--panel);
+}
+
+.settings {
+  display: grid;
+  gap: 20px;
+}
+
+fieldset.panel {
+  border: none;
+  margin: 0;
+  min-width: 0;
+}
+
+/* A legend as a panel's heading, laid out like the others. */
+fieldset.panel legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 4px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+fieldset.panel legend + * {
+  clear: both;
+}
+
+/* The settings' Save stays in reach while the form scrolls. */
+.settings-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 12px 0;
+  background: var(--page);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.setting-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px 24px;
+  margin-top: 16px;
+}
+
+.setting {
+  display: grid;
+  gap: 6px;
+  font-size: 0.87rem;
+  color: var(--muted);
+}
+
+/* A setting's field, with its unit inside the same box. */
+.setting-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 200px;
+  padding: 0 12px;
+  border-radius: 10px;
+  background: var(--inset);
+  color: var(--ink);
+}
+
+.setting-input input {
+  font: inherit;
+  font-family: var(--mono);
+  flex: 1;
+  min-width: 0;
+  border: none;
+  padding: 8px 0;
+  background: transparent;
+  color: var(--ink);
+  text-align: right;
+}
+
+/* The appearances as cards to pick, each a radio button under its icon. */
+.appearances {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 200px));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.appearance {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 18px 12px 14px;
+  border-radius: 12px;
+  background: var(--inset);
+  font-size: 0.9rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.appearance svg.lucide {
+  width: 28px;
+  height: 28px;
+  color: var(--muted);
+}
+
+.appearance input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.appearance:hover {
+  background: color-mix(in srgb, var(--ink) 8%, var(--inset));
+}
+
+.appearance:has(input:checked) {
+  background: var(--sea-green);
+  color: var(--midnight);
+  font-weight: 600;
+}
+
+.appearance:has(input:checked) svg.lucide {
+  color: var(--midnight);
+}
+
+.appearance:has(input:focus-visible) {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+@media (forced-colors: active) {
+  .appearance:has(input:checked) {
+    outline: 3px solid Highlight;
+  }
+}
+
+.confirm-dialog {
+  border: none;
+  border-radius: 16px;
+  padding: 24px 28px;
+  max-width: 560px;
+  width: calc(100% - 48px);
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.confirm-dialog::backdrop {
+  background: color-mix(in srgb, var(--midnight) 55%, transparent);
+}
+
+.confirm-body {
+  margin: 8px 0 20px;
+}
+
+.change-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+}
+
+.confirm-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.confirm-buttons .quiet {
+  background: var(--inset);
+}
+
+/* The rounds of the improver. */
+.round-outcome {
+  margin: 4px 0 16px;
+}
+
+.round-progress {
+  list-style: none;
+  margin: 12px 0 20px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.stage {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--inset);
+  font-size: 0.87rem;
+  color: var(--muted);
+}
+
+.stage-current {
+  background: var(--marigold);
+  color: var(--midnight);
+  font-weight: 600;
+}
+
+.stage-done {
+  color: var(--ink);
+}
+
+.stage-mark {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--muted) 40%, transparent);
+}
+
+.stage-done .stage-mark {
+  background: var(--green-text);
+}
+
+.stage-current .stage-mark {
+  background: var(--midnight);
+}
+
+.review {
+  margin-top: 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.review-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.reject-form {
+  display: grid;
+  gap: 6px;
+  max-width: 560px;
+}
+
+.reject-form label {
+  font-size: 0.87rem;
+  color: var(--muted);
+}
+
+.reject-form textarea {
+  font: inherit;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  background: var(--inset);
+  color: var(--ink);
+  resize: vertical;
+}
+
+.reject-form .button {
+  justify-self: start;
+}
+
+.reviews {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+}
+
+.table caption {
+  text-align: left;
+  margin-bottom: 8px;
+}
+
+.version-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.version-chart {
+  margin: 0;
+}
+
+.version-chart figcaption {
+  font-size: 0.87rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.version-chart svg {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.version-chart text {
+  fill: var(--muted);
+}
+
+.chart-tick line {
+  stroke: color-mix(in srgb, var(--muted) 25%, transparent);
+}
+
+.chart-first line {
+  stroke: var(--cerulean);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+}
+
+.chart-first text {
+  fill: var(--link);
+}
+
+.chart-label {
+  font-weight: 600;
+}
+
+.chart-point {
+  stroke: var(--panel);
+  stroke-width: 2;
+}
+
+.point-kept {
+  fill: var(--sea-green);
+}
+
+.point-rolled_back {
+  fill: var(--coral);
+}
+
+.point-under_test {
+  fill: var(--marigold);
+}
+
+.chart-key {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin: 12px 0 0;
+  padding: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.chart-key li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.key-mark {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.key-kept {
+  background: var(--sea-green);
+}
+
+.key-rolled_back {
+  background: var(--coral);
+}
+
+.key-under_test {
+  background: var(--marigold);
+}
+
+.key-line {
+  width: 18px;
+  border-top: 2px dashed var(--cerulean);
+}
+
+.facts.model-change {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+/* Each round is a body of its own: its short fields, then its reason and
+   reviews on a line beneath, shaded together. */
+.table.rounds tbody tr:nth-child(n) td {
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.table.rounds tbody:nth-of-type(odd) tr td {
+  background: var(--inset);
+}
+
+.table.rounds tbody:nth-of-type(odd) tr td + td {
+  box-shadow: -1px 0 0 var(--inset);
+}
+
+.table.rounds tbody:nth-of-type(odd) tr:first-child td:first-child {
+  border-top-left-radius: 8px;
+}
+
+.table.rounds tbody:nth-of-type(odd) tr:first-child td:last-child {
+  border-top-right-radius: 8px;
+}
+
+.table.rounds tbody:nth-of-type(odd) tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.table.rounds tbody:nth-of-type(odd) tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+.round-verdict {
+  min-width: 14rem;
+}
+
+.table .round-details {
+  padding-top: 0;
+}
+
+.round-details > div {
+  display: grid;
+  gap: 4px;
+  max-width: 100ch;
+}
+
+.round-stage {
+  display: block;
+  min-width: 10rem;
+  margin-top: 4px;
+  color: var(--muted);
+}

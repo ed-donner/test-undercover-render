@@ -1,0 +1,47 @@
+{
+  "name": "undercover",
+  "version": 2,
+  "managedBy": "CDK",
+  "tags": {
+    "project": "undercover"
+  },
+  "runtimes": [
+    {
+      "name": "agent",
+      "build": "CodeZip",
+      "entrypoint": "main.py",
+      "codeLocation": "runtime",
+      "runtimeVersion": "PYTHON_3_12",
+      "protocol": "HTTP",
+      "lifecycleConfiguration": {
+        "idleRuntimeSessionTimeout": 60
+      },
+      "instrumentation": {
+        "enableOtel": false
+      },
+      "additionalPolicies": ["policy.json"]
+    }
+  ],
+  "memories": [],
+  "knowledgeBases": [],
+  "credentials": [
+    {
+      "authorizerType": "ApiKeyCredentialProvider",
+      "name": "OPENROUTER_API_KEY"
+    },
+    {
+      "authorizerType": "ApiKeyCredentialProvider",
+      "name": "UNDERCOVER_API_KEY"
+    },
+    {
+      "authorizerType": "ApiKeyCredentialProvider",
+      "name": "DATABASE_URL"
+    }
+  ],
+  "evaluators": [],
+  "onlineEvalConfigs": [],
+  "agentCoreGateways": [],
+  "policyEngines": [],
+  "configBundles": [],
+  "harnesses": []
+}
